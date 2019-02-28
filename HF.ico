@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title> PNG转ICO,PNG转ICNS | 图标格式在线转换 - EASYICON.NET</title>
+<link href="https://cdn-img.easyicon.net/style/complus.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn-img.easyicon.net/style/custom_v3.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="https://cdn-img.easyicon.net/favicon.ico" />
+<SCRIPT language="JavaScript" src="https://cdn-img.easyicon.net/js/tabcontent.js" type="text/JavaScript"></SCRIPT>
+<script type="text/javascript">
+function checkerror(){
+ var curUrl = document.getElementById('url').value;
+ var ft=document.getElementById("format");
+ var sz=document.getElementById("size");
+ var isTxt = ".png";
+	if(curUrl.indexOf(isTxt)=0){
+	   alert("远程地址格式错误，只支持PNG格式。");
+	   document.getElementById('url').focus();
+	   return false;
+	}
+
+	if(ft.value==""){
+	alert("请选择目标格式");
+	ft.focus();
+	return false;
+	}
+	
+	if(sz.value==""){
+	alert("请选择目标尺寸");
+	sz.focus();
+	return false;
+	}
+}
+</script>
+</head>
+<body>
+<div class="vector_bg">
+<div style="clear:both;padding:40px 0px 0px 200px; text-align:left">
+<div class="back_index">
+<a href="/">返回首页</a>
+</div>
+<div class="info" id="info">
+<div style="height:50px;width:50px;"></div>
+</div>
+<div class="tab_menu">
+<ul id="tabs">
+<li><a href="javascript:;" rel="tcontent2">从远程地址制作图标</a></li>
+<li><a href="javascript:;" rel="tcontent3">上传PNG制作图标</a></li>
+</ul>
+</div>
+<div class="layout_item">
+<div id="tcontent2" class="tabcontent">
+<form name="urlconvert" method="post" action="/covert/" onSubmit="return checkerror()" enctype="multipart/form-data">
+<input type="hidden" value="url" name="upload_type" id="upload_type" />
+<input type="text" name="url" id="url" value="http://" class="textwidth" /> <span class="grey">只支持PNG格式</span>
+<div class="pdclass">
+<select name="format" id="format" class="selectwidth">
+<option value="">图标格式</option>
+<option value="icon">Microsoft icon</option><option value="icns">MacOs icon</option></select>
+</div>
+<div class="pdclass">
+<select name="width" id="size" class="selectwidth">
+<option value="">图标尺寸</option>
+<option value="16">16x16</option><option value="32">32x32</option><option value="48">48x48</option><option value="64">64x64</option><option value="96">96x96</option><option value="128">128x128</option><option value="256">256x256</option><option value="512">512x512</option></select>
+</div>
+<div class="pdclass">
+<input type="submit" name="convert" class="btn btn-greenx" value="开始转换" />
+</div>
+</form>
+</div>
+<div id="tcontent3" class="tabcontent">
+<form name="fileconvert" method="post" action="/covert/" enctype="multipart/form-data">
+<input type="hidden" value="upload_file" name="upload_type" id="upload_type" />
+<input type="file" id="file" name="file" />
+<div class="pdclass smallfont">
+Size(16x16, 32x32, 48x48, 64x64, 96x96, 128x128, 256x256, 512x512)</div>
+<div class="pdclass">
+<select name="format" class="selectwidth">
+<option value="">图标格式</option>
+<option value="icon">Microsoft icon</option><option value="icns">MacOs icon</option></select>
+</div>
+<div class="pdclass">
+<select name="width" class="selectwidth">
+<option value="">图标尺寸</option>
+<option value="16">16x16</option><option value="32">32x32</option><option value="48">48x48</option><option value="64">64x64</option><option value="96">96x96</option><option value="128">128x128</option><option value="256">256x256</option><option value="512">512x512</option></select>
+</div>
+<div class="pdclass">
+<input type="submit" name="convert" class="btn btn-greenx" value="开始转换" />
+</div>
+</form>
+<div class="footer">
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var myicons=new ddtabcontent("tabs") //enter ID of Tab Container
+myicons.setpersist(true) //toogle persistence of the tabs' state
+myicons.setselectedClassTarget("link") //"link" or "linkparent"
+myicons.init()
+</script>
+</div>
+</div>
+<div style="clear:both;width:728px;height:90px;margin:10px auto 20px auto;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-8457081974982483" data-ad-slot="3788673603"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="lang_footer">
+<div class="language">
+<div id="lan_more" class="fn-clear">
+<div class="lan_close"><a href="javascript:layClose('lan_more');"></a></div>
+<ul>
+<li><a href="/language.en/covert/">English</a></li><li><a href="/language.ja/covert/">Japanese</a></li><li><a href="/language.zh-cn/covert/">中文简体</a></li><li><a href="/language.zh-tw/covert/">中文繁體</a></li></ul>
+</div>
+<div class="lan_bt"><a class="btn btn-outline btn-small" href="javascript:toggleLan('lan_more');"><span></span>中文简体</a></div>
+</div>
+<script>
+function layClose(vid){
+	 target=document.getElementById(vid);
+	 target.style.display="none";
+}
+function toggleLan(targetid){
+    if (document.getElementById){
+        target=document.getElementById(targetid);
+            if (target.style.display=="block"){
+                target.style.display="none";
+            } else {
+                target.style.display="block";
+            }
+    }
+}
+</script></div>
+﻿
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-35147779-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-35147779-1');
+</script>
+</body>
+</html>
