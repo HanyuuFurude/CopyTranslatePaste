@@ -14,7 +14,7 @@ import logging
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='[%(asctime)s] $(filename)s \n [line:%(lineno)d] %(levelname)s %(message)s',
+    format='[%(asctime)s] %(filename)s \n [line:%(lineno)d] %(levelname)s %(message)s',
     datefmt='%Y/%b/%d %H:%M:%S',
     filename='log.log',
     filemode='a'
@@ -29,8 +29,8 @@ def translate(queryString: str)->str:
         "query": queryString,
         "source": "txt"
     }
-    res = requests.post("https://fanyi.baidu.com/transapi", form)
     try:
+        res = requests.post("https://fanyi.baidu.com/transapi", form)
         resjson = res.json()
         if resjson["type"] == 2:
             return resjson["data"][0]["dst"]
@@ -38,6 +38,7 @@ def translate(queryString: str)->str:
             for ret in json.loads(resjson["result"])["content"][0]["mean"][0]["cont"]:
                 return ret
     except Exception:
+        logging.error('[error] network error.')
         return None
 
 # 从剪切板获取文本
@@ -52,7 +53,7 @@ def gettext()->str:
         logging.debug(str('[read from clipboard]:', t))
         return t
     except Exception as e:
-        logging.error(str('can\'t read from clipboard.\n', e))
+        logging.error(str('can\'t read from clipboard.\n %s'% e))
         return None
 
 
