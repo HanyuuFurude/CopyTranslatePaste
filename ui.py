@@ -8,7 +8,7 @@ import logging
 
 logging.basicConfig(
     level=logging.DEBUG,
-    format='[%(asctime)s] %(filename)s \n [line:%(lineno)d] %(levelname)s %(message)s',
+    format='[%(asctime)s %(filename)s]\n  line:%(lineno)d,level:%(levelname)s,message:%(message)s\n',
     datefmt='%Y/%b/%d %H:%M:%S',
     filename='log.log',
     filemode='a'

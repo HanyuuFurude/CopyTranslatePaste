@@ -38,7 +38,7 @@
       <item>
        <widget class="QLabel" name="labelOrigin">
         <property name="text">
-         <string>from clipboard</string>
+         <string>from (type or from clipboard)</string>
         </property>
        </widget>
       </item>
@@ -52,7 +52,7 @@
       <item>
        <widget class="QLabel" name="labelTranslated">
         <property name="text">
-         <string>translated</string>
+         <string>translated (write to clipboard)</string>
         </property>
        </widget>
       </item>
