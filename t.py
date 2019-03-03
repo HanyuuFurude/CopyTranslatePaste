@@ -47,9 +47,8 @@ def translate(queryString: str)->str:
 
 def gettext()->str:
     try:
-        w.OpenClipboard()
-        t = w.GetClipboardData(win32con.CF_TEXT)
-        w.CloseClipboard()
+        with w.OpenClipboard():
+            t = w.GetClipboardData(win32con.CF_TEXT)
         t = t.decode('gbk')
         logging.debug('[read from clipboard]:%s'% t)
         return t
@@ -61,18 +60,19 @@ def gettext()->str:
 def settext(aString)->None:
     if aString is not None:
         try:
-            w.OpenClipboard()
-            w.EmptyClipboard()
-            w.SetClipboardData(win32con.CF_UNICODETEXT, aString)
-            w.CloseClipboard()
+            with w.OpenClipboard():
+            # w.OpenClipboard()
+                w.EmptyClipboard()
+                w.SetClipboardData(win32con.CF_UNICODETEXT, aString)
+            # w.CloseClipboard()
         except Exception as e:
-            logging.error(str('write to clipboard failure', e))
+            logging.error('write to clipboard failure %s'% e)
             return None
         finally:
             try:
                 w.CloseClipboard()
             except Exception as e:
-                logging.critical(str('close clipboard failure', e))
+                logging.critical('close clipboard failure %s'% e)
 
 
 if __name__ == "__main__":
@@ -94,7 +94,7 @@ if __name__ == "__main__":
                     print('[res]:',res)
                 time.sleep(0.1) # prevent too much query in short time
             except Exception as e:
-                print('[error]',e)
+                print(e)
     else:
         res = translate(s)
         print('[翻译结果]===================')
