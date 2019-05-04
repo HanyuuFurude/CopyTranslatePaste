@@ -5,8 +5,8 @@ import json
 import sys
 import chardet
 import logging
-import time 
-import os 
+import time
+import os
 # debug() 调试级别，一般用于记录程序运行的详细信息
 # info() 事件级别，一般用于记录程序的运行过程
 # warnning() 警告级别，，一般用于记录程序出现潜在错误的情形
@@ -22,8 +22,30 @@ logging.basicConfig(
 )
 # 翻译
 
-
-def translate(queryString: str)->str:
+def word(res):
+    resList = []
+    for ret in json.loads(res["result"])["content"][0]["mean"][0]["cont"]:
+        resList.append(ret)
+    return resList
+def sentence(res):
+    resList = []
+    for ret in res["data"]:
+        resList.append(ret["dst"])
+    return resList
+# 翻译
+def translate(queryString: str):
+    head = \
+        {
+            "Host": "fanyi.baidu.com",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+            "Accept": "*/*",
+            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Referer": "https://fanyi.baidu.com/",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "X-Requested-With": "XMLHttpRequest",
+            "Connection": "keep-alive"
+        }
     form = {
         "from": "en",
         "to": "zh",
@@ -31,16 +53,20 @@ def translate(queryString: str)->str:
         "source": "txt"
     }
     try:
-        res = requests.post("https://fanyi.baidu.com/transapi", form)
+        res = requests.post("https://fanyi.baidu.com/transapi", form,headers = head)
         resjson = res.json()
-        if resjson["type"] == 2:
-            return resjson["data"][0]["dst"]
-        else:
-            for ret in json.loads(resjson["result"])["content"][0]["mean"][0]["cont"]:
-                return ret
-    except Exception:
+        print('======')
+        print(res.json())
+        print('======')
+        a={1:'a',2:'b'}
+        resFilter={1:word,2:sentence}
+        return resFilter[(resjson["type"])](resjson)
+    except Exception as e:
+        print(e)
         logging.error('[error] network error.')
         return None
+
+
 
 # 从剪切板获取文本
 
@@ -50,10 +76,10 @@ def gettext()->str:
         with w.OpenClipboard():
             t = w.GetClipboardData(win32con.CF_TEXT)
         t = t.decode('gbk')
-        logging.debug('[read from clipboard]:%s'% t)
+        logging.debug('[read from clipboard]:%s' % t)
         return t
     except Exception as e:
-        logging.error(str('can\'t read from clipboard.\n %s'% e))
+        logging.error(str('can\'t read from clipboard.\n %s' % e))
         return None
 
 
@@ -61,44 +87,47 @@ def settext(aString)->None:
     if aString is not None:
         try:
             with w.OpenClipboard():
-            # w.OpenClipboard()
+                # w.OpenClipboard()
                 w.EmptyClipboard()
                 w.SetClipboardData(win32con.CF_UNICODETEXT, aString)
             # w.CloseClipboard()
         except Exception as e:
-            logging.error('write to clipboard failure %s'% e)
+            logging.error('write to clipboard failure %s' % e)
             return None
         finally:
             try:
                 w.CloseClipboard()
             except Exception as e:
-                logging.critical('close clipboard failure %s'% e)
+                logging.critical('close clipboard failure %s' % e)
 
 
 if __name__ == "__main__":
-    argv = sys.argv
-    s = ''
-    for i in range(1, len(argv)):
-        # print(i)
-        s = s + argv[i] + ' '
-    # todo:
-    # add stay at background mode
-    if s == '-b' or s == '--background':
-        last = ''
-        while True:
-            try:
-                queryWord = gettext()
-                if last == queryWord:
-                    res = translate(queryWord)
-                    settext(res)
-                    print('[res]:',res)
-                time.sleep(0.1) # prevent too much query in short time
-            except Exception as e:
-                print(e)
-    else:
-        res = translate(s)
-        print('[翻译结果]===================')
-        print(res)
-        # res = res.encode('gbk')
-        settext(res)
-        print('[已复制到剪切板]===================')
+    res = translate('today')
+    for i in res:
+        print('->'+i)
+    # argv = sys.argv
+    # s = ''
+    # for i in range(1, len(argv)):
+    #     # print(i)
+    #     s = s + argv[i] + ' '
+    # # todo:
+    # # add stay at background mode
+    # if s == '-b' or s == '--background':
+    #     last = ''
+    #     while True:
+    #         try:
+    #             queryWord = gettext()
+    #             if last == queryWord:
+    #                 res = translate(queryWord)
+    #                 settext(res)
+    #                 print('[res]:', res)
+    #             time.sleep(0.1)  # prevent too much query in short time
+    #         except Exception as e:
+    #             print(e)
+    # else:
+    #     res = translate(s)
+    #     print('[翻译结果]===================')
+    #     print(res)
+    #     # res = res.encode('gbk')
+    #     settext(res)
+    #     print('[已复制到剪切板]===================')
