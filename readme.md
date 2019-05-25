@@ -1,4 +1,4 @@
-# CopyTranslatePaste
+# Seiji--CopyTranslatePaste
 > [下载](https://github.com/HanyuuFurude/CopyTranslatePaste/releases)
 * CopyTranslatePaste 是一个即时将您的输入/剪切板中的文字进行翻译的一个工具；
 * 您可以直接复制待翻译的文本，该工具会自动翻译您的剪切内容进行翻译并放进您的剪切板中，只需选择粘贴就能粘贴译；。
@@ -22,6 +22,12 @@
       ```
   * 图形界面（GUI）使用：
     * 运行ui.exe即可，可以设置是否从剪切板读入和是否写回剪切板（开启从剪切板读入则输入框将不响应翻译）
+# 将要到来的新特性（咕咕咕~）
+>（如果我很久都没有更新请把我从鸽子笼里[拯救](mailto:Furude_Hanyuu@outlook.com)出来谢谢）
+* 2019/05/25
+  * 图片翻译功能
+  * 截图翻译功能
+  * 快捷键响应
 # Log
 * 2019/03/24
   * TODO
