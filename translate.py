@@ -26,12 +26,18 @@ def word(res):
     resList = []
     for ret in json.loads(res["result"])["content"][0]["mean"][0]["cont"]:
         resList.append(ret)
-    return resList
+    res = ""
+    for i in resList:
+        res+=i+'\n'
+    return res
 def sentence(res):
     resList = []
     for ret in res["data"]:
         resList.append(ret["dst"])
-    return resList
+    res = ""
+    for i in resList:
+        res+=i+'\n'
+    return res
 # 翻译
 def translate(queryString: str):
     head = \
@@ -55,9 +61,6 @@ def translate(queryString: str):
     try:
         res = requests.post("https://fanyi.baidu.com/transapi", form,headers = head)
         resjson = res.json()
-        print('======')
-        print(res.json())
-        print('======')
         a={1:'a',2:'b'}
         resFilter={1:word,2:sentence}
         return resFilter[(resjson["type"])](resjson)
@@ -73,9 +76,9 @@ def translate(queryString: str):
 
 def gettext()->str:
     try:
-        with w.OpenClipboard():
-            t = w.GetClipboardData(win32con.CF_TEXT)
-        t = t.decode('gbk')
+        w.OpenClipboard()
+        t = w.GetClipboardData()
+        w.CloseClipboard()
         logging.debug('[read from clipboard]:%s' % t)
         return t
     except Exception as e:
@@ -86,11 +89,11 @@ def gettext()->str:
 def settext(aString)->None:
     if aString is not None:
         try:
-            with w.OpenClipboard():
-                # w.OpenClipboard()
-                w.EmptyClipboard()
-                w.SetClipboardData(win32con.CF_UNICODETEXT, aString)
-            # w.CloseClipboard()
+            w.OpenClipboard()
+            # w.OpenClipboard()
+            w.EmptyClipboard()
+            w.SetClipboardData(win32con.CF_UNICODETEXT, aString)
+            w.CloseClipboard()
         except Exception as e:
             logging.error('write to clipboard failure %s' % e)
             return None
