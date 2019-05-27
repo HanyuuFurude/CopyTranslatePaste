@@ -1,5 +1,6 @@
 import sys
 # from PyQt5 import *
+import PyQt5
 from PyQt5.QtWidgets import \
 	(
 		QWidget,
@@ -20,11 +21,11 @@ from PyQt5.QtCore import Qt,QCoreApplication,QTimer
 import threading
 import time
 import datetime
-import t
+import translate
 class  MainUX(QMainWindow):
 	def __init__(self, parent=None, flags=Qt.WindowFlags()):
 		super().__init__(parent=parent, flags=flags)
-		self.title = '[dev] by: Hayuuu'
+		self.title = 'Seiji'
 		self.wgtCanvas = QWidget()
 		self.setCentralWidget(self.wgtCanvas)
 		self.autoRead = True
@@ -35,8 +36,10 @@ class  MainUX(QMainWindow):
 		# 控件生成
 		self.qlbAutoRead = QLabel("自动读取内存文本")
 		self.qcbAutoRead = QCheckBox()
+		self.qcbAutoRead.setCheckState(Qt.Checked)
 		self.qlbAutoCopy = QLabel("自动将结果写入剪切板")
 		self.qcbAutoCopy = QCheckBox()
+		self.qcbAutoCopy.setCheckState(Qt.Checked)
 		self.qlbInputLabel = QLabel("Input box")
 		self.qteInputText = QTextEdit()
 		self.qlbResultLabel = QLabel("result")
@@ -93,7 +96,7 @@ class  MainUX(QMainWindow):
 	# set the text to textTranslate
 	def setPlainText(self, text):
 		self.qteResultText.clear()
-		self.qteResultText.appendPlainText(text)
+		self.qteResultText.setPlainText(text)
 		return text
 
 	def translate(self):
@@ -102,7 +105,7 @@ class  MainUX(QMainWindow):
 			if text is None or text == self.res:
 				return
 			self.qteInputText.clear()
-			self.qteInputText.appendPlainText(text)
+			self.qteInputText.setPlainText(text)
 		else:
 			text = self.fetchPlainText()
 		if text == self.text:
@@ -114,16 +117,16 @@ class  MainUX(QMainWindow):
 			return
 		elif text == self.res:
 			return
-		self.res = self.setPlainText(t.translate(text))
+		self.res = self.setPlainText(translate.translate(text))
 		self.setPlainText(self.res)
 		if self.autoWrite is True:
 			self.writeClipboard(self.res)
 
 	def readClipboard(self):
-		return t.gettext()
+		return translate.gettext()
 
 	def writeClipboard(self, text):
-		t.settext(text)
+		translate.settext(text)
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
