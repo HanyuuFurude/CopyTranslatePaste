@@ -78,6 +78,12 @@ class  MainUX(QMainWindow):
 		self.timer.timeout.connect(self.translate)
 		self.timer.start(1000)
 
+
+		file = open('ui.qss', 'r')
+		stylesheet = file.read()
+		file.close()
+		self.setStyleSheet(stylesheet)
+		
 		self.show()
 		return 
 
