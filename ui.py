@@ -76,7 +76,7 @@ class  MainUX(QMainWindow):
 		self.qcbAutoCopy.stateChanged.connect(self.checkBoxChanged)
 		self.btnExit.clicked.connect(QCoreApplication.exit)
 		self.timer.timeout.connect(self.translate)
-		self.timer.start(1000)
+		self.timer.start(3000)
 
 
 		file = open('ui.qss', 'r')
