@@ -79,9 +79,9 @@ class  MainUX(QMainWindow):
 		self.timer.start(1000)
 
 		self.show()
-		return 
+		return
 
-		
+
 	# checkBox function
 	def checkBoxChanged(self, state):
 		if self.sender() == self.qcbAutoRead:
@@ -117,7 +117,8 @@ class  MainUX(QMainWindow):
 			return
 		elif text == self.res:
 			return
-		self.res = self.setPlainText(translate.translate(text))
+		if text is not '':
+			self.res = self.setPlainText(translate.translate(text))
 		self.setPlainText(self.res)
 		if self.autoWrite is True:
 			self.writeClipboard(self.res)
