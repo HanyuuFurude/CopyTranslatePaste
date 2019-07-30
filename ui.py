@@ -1,6 +1,7 @@
 import sys
 # from PyQt5 import *
 import PyQt5
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import \
     (
         QWidget,
@@ -73,6 +74,16 @@ class MainUX(QMainWindow):
         self.qltMainLayout.addWidget(self.btnExit)
         self.wgtCanvas.setLayout(self.qltMainLayout)
         self.setWindowTitle(self.title)
+
+        # 窗口置顶
+        self.setWindowFlags(
+            # QtCore.Qt.WindowMinimizeButtonHint |
+            # QtCore.Qt.WindowMaximizeButtonHint |
+            # QtCore.Qt.WindowCloseButtonHint |
+            QtCore.Qt.WindowStaysOnTopHint |
+            QtCore.Qt.CustomizeWindowHint
+        )
+        self.setFixedSize(self.width(),self.height())
 
         # QSS
         try:
