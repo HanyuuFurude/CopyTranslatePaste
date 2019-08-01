@@ -1,5 +1,7 @@
  # Kuro--CopyTranslatePaste
+ 
  ## 更加贴近您的翻译需求
+ 
 > [下载](https://github.com/HanyuuFurude/CopyTranslatePaste/releases)
 * CopyTranslatePaste 是一个即时将您的输入/剪切板中的文字进行翻译的一个工具；
 * 您可以直接复制待翻译的文本，该工具会自动翻译您的剪切内容进行翻译并放进您的剪切板中，只需选择粘贴就能粘贴译文。
@@ -8,9 +10,9 @@
 * 使用方法：
   * 图形界面（GUI）使用：
     
-    ![translate](readme/translate.gif)
+![translate](readme/translate.gif)
     
-    ![settings](readme/settings.gif)
+![settings](readme/settings.gif)
     
   * cmd/Powershell使用：
     * 手动翻译
