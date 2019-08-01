@@ -89,7 +89,6 @@ def gettext()->str:
     except Exception as e:
         w.CloseClipboard()
         logging.error(str('can\'t read from clipboard.\n %s' % e))
-        w.CloseClipboard()
         return None
 
 
