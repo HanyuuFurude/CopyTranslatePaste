@@ -23,6 +23,7 @@ QTextEdit, QTextBrowser {
 QLabel, QTabBar::tab, QMenuBar::item,
 QCheckBox, QGroupBox {
     background-color: transparent;
+    /* background-color:white;  */
     color: #bbbbbb;
     selection-color: #bbbbbb;
 }

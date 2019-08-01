@@ -5,8 +5,10 @@ import json
 import sys
 import chardet
 import logging
+import re
 import time
 import os
+from webSocket import translateWebSocket
 # debug() 调试级别，一般用于记录程序运行的详细信息
 # info() 事件级别，一般用于记录程序的运行过程
 # warnning() 警告级别，，一般用于记录程序出现潜在错误的情形
@@ -22,56 +24,55 @@ logging.basicConfig(
 )
 # 翻译
 
-def word(res):
-    resList = []
-    for ret in json.loads(res["result"])["content"][0]["mean"][0]["cont"]:
-        resList.append(ret)
-    res = ""
-    for i in resList:
-        res+=i+'\n'
-    return res
-def sentence(res):
-    resList = []
-    for ret in res["data"]:
-        resList.append(ret["dst"])
-    res = ""
-    for i in resList:
-        res+=i+'\n'
-    return res
+# def word(res):
+#     resList = []
+#     for ret in json.loads(res["result"])["content"][0]["mean"][0]["cont"]:
+#         resList.append(ret)
+#     res = ""
+#     for i in resList:
+#         res+=i+'\n'
+#     return res
+# def sentence(res):
+#     resList = []
+#     for ret in res["data"]:
+#         resList.append(ret["dst"])
+#     res = ""
+#     for i in resList:
+#         res+=i+'\n'
+#     return res
 # 翻译
 def translate(queryString: str):
-    head = \
-        {
-            "Host": "fanyi.baidu.com",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
-            "Accept": "*/*",
-            "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Referer": "https://fanyi.baidu.com/",
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "X-Requested-With": "XMLHttpRequest",
-            "Connection": "keep-alive",
-            "Cookie": "BAIDUID=C06A41C141B090CBD743BAD41E49F8DA:FG=1; BIDUPSID=C06A41C141B090CBD743BAD41E49F8DA; PSTM=1552839539; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=1558795642,1558945603,1560824308,1561215629; from_lang_often=%5B%7B%22value%22%3A%22dan%22%2C%22text%22%3A%22%u4E39%u9EA6%u8BED%22%7D%2C%7B%22value%22%3A%22hu%22%2C%22text%22%3A%22%u5308%u7259%u5229%u8BED%22%7D%2C%7B%22value%22%3A%22en%22%2C%22text%22%3A%22%u82F1%u8BED%22%7D%5D; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1; pgv_pvi=9974821888; locale=zh; to_lang_often=%5B%7B%22value%22%3A%22en%22%2C%22text%22%3A%22%u82F1%u8BED%22%7D%2C%7B%22value%22%3A%22zh%22%2C%22text%22%3A%22%u4E2D%u6587%22%7D%5D; pgv_si=s7580348416; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=1561215629; ZD_ENTRY=bing; delPer=0; PSINO=1; H_PS_PSSID=26525_1466_21097_29064_28519_29098_28836_28584; yjs_js_security_passport=38b6331e008ed02c90cb3ab7db7ed77909c317dd_1561215630_js%"
-        }
-    form = {
-        "from": "en",
-        "to": "zh",
-        "query": queryString,
-        "transtype":"realtime",
-        "simple_means_flag":3,
-        # "sign":151721.439192,
-        "token":"8adacf46fbcb4329dc03d0b85e2cbaab"
-    }
-    try:
-        res = requests.post("https://fanyi.baidu.com/v2transapi", form,headers = head)
-        resjson = res.json()
-        a={1:'a',2:'b'}
-        resFilter={1:word,2:sentence}
-        return resFilter[(resjson["type"])](resjson)
-    except Exception as e:
-        print(e)
-        logging.error('[error] network error.')
-        return None
+    if re.match(r'^ *$', queryString):
+        return ''
+    return translateWebSocket(queryString)
+    # head = \
+    #     {
+    #         "Host": "fanyi.baidu.com",
+    #         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0",
+    #         "Accept": "*/*",
+    #         "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+    #         "Accept-Encoding": "gzip, deflate, br",
+    #         "Referer": "https://fanyi.baidu.com/",
+    #         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    #         "X-Requested-With": "XMLHttpRequest",
+    #         "Connection": "keep-alive"
+    #     }
+    # form = {
+    #     "from": "en",
+    #     "to": "zh",
+    #     "query": queryString,
+    #     "source": "txt"
+    # }
+    # try:
+    #     res = requests.post("https://fanyi.baidu.com/transapi", form,headers = head)
+    #     resjson = res.json()
+    #     a={1:'a',2:'b'}
+    #     resFilter={1:word,2:sentence}
+    #     return resFilter[(resjson["type"])](resjson)
+    # except Exception as e:
+    #     print(e)
+    #     logging.error('[error] network error.')
+    #     return None
 
 
 
@@ -86,6 +87,7 @@ def gettext()->str:
         logging.debug('[read from clipboard]:%s' % t)
         return t
     except Exception as e:
+        w.CloseClipboard()
         logging.error(str('can\'t read from clipboard.\n %s' % e))
         w.CloseClipboard()
         return None
