@@ -23,6 +23,7 @@ jobs:
         pyinstaller ./ui.pyw -F -w
         cp ./ico.ico ./dist/ico.ico
         cp ./ui.qss ./dist/ui.qss
+        ls ./dist -l
         tar -cvf ctp.tar ./dist/ui.exe ./dist/ui.qss ./dist/ico.ico
     - name: changeLog
       run: |
