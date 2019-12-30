@@ -21,6 +21,7 @@ jobs:
     - name: build
       run: |
         pyinstaller ./ui.pyw -F -w
+        mv ./dist/ui ./dist/ui.exe
         cp ./ico.ico ./dist/ico.ico
         cp ./ui.qss ./dist/ui.qss
         ls ./dist -l
