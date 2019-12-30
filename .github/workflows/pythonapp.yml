@@ -27,5 +27,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: build
       run: |
-        ls -a -l
-        tree
+        pyinstaller ./ui.pyw -F -w
