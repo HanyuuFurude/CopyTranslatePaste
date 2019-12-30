@@ -111,9 +111,10 @@ def settext(aString)->None:
 
 
 if __name__ == "__main__":
-    res = translate('today')
-    for i in res:
-        print('->'+i)
+    pass
+    # res = translate('today')
+    # for i in res:
+    #     print('->'+i)
     # argv = sys.argv
     # s = ''
     # for i in range(1, len(argv)):
