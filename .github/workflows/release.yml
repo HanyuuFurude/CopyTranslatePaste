@@ -17,7 +17,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
-        pip install flake8
     - name: build
       run: |
         pyinstaller ./ui.pyw -F -w
@@ -35,6 +34,6 @@ jobs:
         file: ./ctp.tar
         changelog: ./change.log
       env:
-        GITHUB_TOKEN: ${{ secrets.action_token }}
+        GITHUB_TOKEN: ${{ secrets.allpr }}
 
 
