@@ -28,12 +28,19 @@ jobs:
     - name: changeLog
       run: |
         echo "Generate by Github action, please download ctp.tar and unpack it with 7z or winrar,then you can run ui.exe." > change.log
-    - name: release
-      uses: yakuhzi/action-release@v1.2.0
+    - name: Automatic Releases
+      uses: marvinpinto/action-automatic-releases@v0.2.2
       with:
-        file: ./ctp.tar
-        changelog: ./change.log
-      env:
-        GITHUB_TOKEN: ${{ secrets.allpr }}
-
-
+        # GitHub secret token 
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        # Git tag (for automatic releases)
+        automatic_release_tag: "latest"
+        # Should this release be marked as a draft?
+        draft: false
+        # Should this release be marked as a pre-release?
+        prerelease: true
+        # Release title (for automatic releases)
+        title: "auto published"
+        # Assets to upload to the release
+        files: |
+          ./ctp.tar
