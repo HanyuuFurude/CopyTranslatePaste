@@ -1,6 +1,6 @@
  # Kuro--CopyTranslatePaste
- 
- ## 更加贴近您的翻译需求
+ > 正在考虑使用其他语言和框架重构，python版本将停止维护
+ ## 复制即译，自动粘贴
  
 > [下载](https://github.com/HanyuuFurude/CopyTranslatePaste/releases)
 * CopyTranslatePaste 是一个即时将您的输入/剪切板中的文字进行翻译的一个工具；
