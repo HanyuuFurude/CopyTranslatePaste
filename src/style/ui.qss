@@ -1,0 +1,31 @@
+QWidget#mainCanvas{
+    padding:0;
+    margin:0;
+    background-color: gray;
+    border-radius:8px;
+}
+QLabel#inputLabel{
+    background-color: #2b2b2b;
+
+    padding:3px;
+    padding-bottom: 1px;
+    margin:0;
+    margin-bottom: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QLabel#outputLabel{
+    background-color: #2b2b2b;
+
+    padding:3px;
+    padding-top: 1px;
+    margin:0;
+    margin-top: 2px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

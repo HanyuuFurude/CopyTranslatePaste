@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
 import logging
+'''
+@Author HanyuuLu
+
+config for logging
+'''
 # debug() 调试级别，一般用于记录程序运行的详细信息
 # info() 事件级别，一般用于记录程序的运行过程
 # warnning() 警告级别，，一般用于记录程序出现潜在错误的情形

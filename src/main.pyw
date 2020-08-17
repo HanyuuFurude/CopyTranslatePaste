@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 @author: HanyuuLu
 @date 2020-08-17
@@ -6,8 +7,7 @@ https://hanyuulu.github.io/CopyTranslatePaste/
 CopyTranslatePaste
 Copyright (C) 2019
 '''
-from utils import translate
-from utils.clipboardUtils import clipboard
+
 import datetime
 import sys
 import threading
@@ -19,24 +19,13 @@ import PyQt5
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QCoreApplication, Qt, QTimer
 from PyQt5.QtWidgets import (
-    QAction,
-    QApplication,
-    QCheckBox,
-    QGraphicsRectItem,
-    QGridLayout,
-    QLabel,
-    QMainWindow,
-    QMenu,
-    QMessageBox,
-    QPushButton,
-    QStatusBar,
-    QSystemTrayIcon,
-    QTextBrowser,
-    QTextEdit,
-    QVBoxLayout,
-    QWidget
+    QAction, QApplication, QCheckBox, QGraphicsRectItem, QGridLayout,
+    QLabel, QMainWindow, QMenu, QMessageBox, QPushButton, QStatusBar, QSystemTrayIcon, QTextBrowser, QTextEdit, QGridLayout, QWidget
 )
 
+from utils import translate
+from utils.clipboardUtils import clipboard
+from utils import log
 
 # 程序名
 TITLE = "Kuro"
@@ -47,54 +36,68 @@ class MainUX(QMainWindow):
         super().__init__(parent=parent, flags=flags)
         self.title = 'Kuro'
         self.wgtCanvas = QWidget()
+        self.wgtCanvas.setObjectName("mainCanvas")
         self.setCentralWidget(self.wgtCanvas)
         self.autoRead = True
         self.autoWrite = True
         self.res = None  # 翻译结果储存变量
         self.text = None  # 待翻译文本储存变量
+        self.webfailFlag = False
+        self.timeTag = time.time()
 
         # 控件生成
-        self.qlbInputLabel = QLabel("Input box")
+        self.qlbInputLabel = QLabel("from")
+        self.qlbInputLabel.setObjectName("inputLabel")
         self.qteInputText = QTextEdit()
-        self.qlbResultLabel = QLabel("result")
+        # self.qteInputText.textChanged.connect(self.bang)
+        self.qlbResultLabel = QLabel("to")
+        self.qlbResultLabel.setObjectName("outputLabel")
         self.qteResultText = QTextEdit()
         self.timer = QTimer(self)  # 剪切板访问定时器
 
         # 控件布局
         # 设置区空间布局
         # 主ui控件布局
-        self.qltMainLayout = QVBoxLayout()
-        self.qltMainLayout.addWidget(self.qlbInputLabel)
-        self.qltMainLayout.addWidget(self.qteInputText)
-        self.qltMainLayout.addWidget(self.qlbResultLabel)
-        self.qltMainLayout.addWidget(self.qteResultText)
+        self.qltMainLayout = QGridLayout()
+        self.qltMainLayout.setVerticalSpacing(0)
+        self.qltMainLayout.addWidget(self.qlbInputLabel, 1, 0)
+        self.qltMainLayout.addWidget(self.qteInputText, 0, 0, 1, 2)
+        self.qltMainLayout.addWidget(self.qlbResultLabel, 1, 1)
+        self.qltMainLayout.addWidget(self.qteResultText, 2, 0, 1, 2)
         self.wgtCanvas.setLayout(self.qltMainLayout)
 
         # 窗口置顶
         self.setWindowFlags(
             # QtCore.Qt.WindowMinimizeButtonHint |
             # QtCore.Qt.WindowMaximizeButtonHint |
-            QtCore.Qt.WindowCloseButtonHint |
-            # QtCore.Qt.WindowStaysOnTopHint  |
-            QtCore.Qt.CustomizeWindowHint
+            # QtCore.Qt.WindowCloseButtonHint |
+            QtCore.Qt.WindowStaysOnTopHint |
+            QtCore.Qt.CustomizeWindowHint |
+            QtCore.Qt.FramelessWindowHint
         )
-        self.setFixedSize(self.width(), self.height())
+        self.setFixedSize(200, 150)
 
         # Place the tray icon
         self.trayIcon = TrayIcon(self)
         self.trayIcon.show()
 
         # QSS
-        try:
-            with open('ui.qss', 'r') as r:
-                styleSheet = r.read()
-                self.setStyleSheet(styleSheet)
-        except Exception as e:
-            QMessageBox(self, 'Error', 'qss文件读取失败', QMessageBox.Yes)
+        for folder, subfolder, files in os.walk("./style"):
+            styleStatement = ""
+            for file in files:
+                try:
+                    with open(os.path.join(folder, file), 'r') as r:
+                        styleStatement += r.read()
+                except Exception as e:
+                    QMessageBox(self, 'Error', 'qss文件读取失败', QMessageBox.Yes)
+            self.setStyleSheet(styleStatement)
+
+        self.setWindowOpacity(0.9)  # 设置窗口透明度
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)  # 设置窗口背景透明
 
         # 功能绑定区
-        # self.timer.timeout.connect(self.translate)
-        # self.timer.start(1000)
+        self.timer.timeout.connect(self.bang)
+        self.timer.start(1000)
 
         self.show()
         return
@@ -128,35 +131,35 @@ class MainUX(QMainWindow):
         self.qteResultText.setPlainText(text)
         return text
 
-    def translate(self):
-        if self.autoRead is True:
-            text = self.readClipboard()
-            if text is None or text == self.res:
-                return
-            self.qteInputText.clear()
-            self.qteInputText.setPlainText(text)
-        else:
-            text = self.fetchPlainText()
-        if text == self.text:
+    def bang(self):
+        text = clipboard.getText()
+        if self.autoRead is False and self.fetchPlainText() != self.text:
+            self.text = self.fetchPlainText()
+            self.translate(self.text)
+        elif text is None or text == self.res or text == self.text:
             return
-        else:
+        elif self.autoRead is True:
             self.text = text
-        if text is None:
-            self.setPlainText('[empty]')
+            self.qteInputText.clear()
+            self.qteInputText.setPlainText(self.text)
+            self.translate(self.text)
+
+    def translate(self, src):
+        print(time.time())
+        if src is None or src == '':
             return
-        elif text == self.res:
+        try:
+            self.res = translate(src)
+        except Exception as e:
+            log.error(e)
+            self.setPlainText('[网络出错]')
+            self.webfailFlag = True
             return
-        if text != '':
-            self.res = self.setPlainText(translate.translate(text))
+        self.webfailFlag = False
         self.setPlainText(self.res)
         if self.autoWrite is True:
-            self.writeClipboard(self.res)
-
-    def readClipboard(self):
-        return translate.gettext()
-
-    def writeClipboard(self, text):
-        translate.settext(text)
+            clipboard.setText(self.res)
+        print("translate success")
 
 
 class TrayIcon(QSystemTrayIcon):
@@ -194,7 +197,7 @@ class TrayIcon(QSystemTrayIcon):
         self.menu.addAction(self.actWriteToClipboard)
         self.menu.addAction(self.actQuit)
         self.setContextMenu(self.menu)
-        self.activated.connect(self.iconClied)
+        # self.activated.connect(self.iconClied)
         # # 把鼠标点击图标的信号和槽连接
         # self.messageClicked.connect(self.exampleMessage)
         # 把鼠标点击弹出消息的信号和槽连接
@@ -227,15 +230,15 @@ class TrayIcon(QSystemTrayIcon):
         else:
             self.uiHandle.show()
 
-    def iconClied(self, reason):
-        "鼠标点击icon传递的信号会带有一个整形的值，1是表示单击右键，2是双击，3是单击左键，4是用鼠标中键点击"
-        if reason == 2 or reason == 3:
-            pw = self.uiHandle
-            if pw.isVisible():
-                pw.hide()
-            else:
-                pw.show()
-        # print(reason)
+    # def iconClied(self, reason):
+    #     "鼠标点击icon传递的信号会带有一个整形的值，1是表示单击右键，2是双击，3是单击左键，4是用鼠标中键点击"
+    #     if reason == 2 or reason == 3:
+    #         pw = self.uiHandle
+    #         if pw.isVisible():
+    #             pw.hide()
+    #         else:
+    #             pw.show()
+    #     # print(reason)
 
 
 if __name__ == "__main__":

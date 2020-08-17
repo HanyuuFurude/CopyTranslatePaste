@@ -1,5 +1,10 @@
+# -*- coding: utf-8 -*-
 import json
 import requests
+'''
+@Author HanyuuLu
+YouDao免费翻译API
+'''
 
 
 def translateYouDao(word: str) -> str:

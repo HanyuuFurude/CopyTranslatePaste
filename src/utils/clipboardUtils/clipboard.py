@@ -2,11 +2,11 @@
 import platform
 from utils.clipboardUtils import clipboardWindows
 from utils.clipboardUtils import clipboardMacOS
-
-# @ Author    : HanyuuLu
-# @ Date      : 2020/08/14
-# @ Desc      : Clipboard set get module for Windows and MacOS
-
+'''
+@ Author    : HanyuuLu
+@ Date      : 2020/08/14
+@ Desc      : Clipboard set get module for Windows and MacOS
+'''
 ClipboardDict = {
     "Windows": clipboardWindows.ClipboardWindows,
     "Darwin": clipboardMacOS.MacClipboard
