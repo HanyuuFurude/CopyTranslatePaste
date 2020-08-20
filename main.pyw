@@ -49,10 +49,12 @@ class MainUX(QMainWindow):
         self.qlbInputLabel = QLabel("from")
         self.qlbInputLabel.setObjectName("inputLabel")
         self.qteInputText = QTextEdit()
+        self.qteInputText.setObjectName("inputBox")
         # self.qteInputText.textChanged.connect(self.bang)
         self.qlbResultLabel = QLabel("to")
         self.qlbResultLabel.setObjectName("outputLabel")
         self.qteResultText = QTextEdit()
+        self.qteResultText.setObjectName("resultBox")
         self.timer = QTimer(self)  # 剪切板访问定时器
 
         # 控件布局
@@ -75,7 +77,7 @@ class MainUX(QMainWindow):
             QtCore.Qt.CustomizeWindowHint |
             QtCore.Qt.FramelessWindowHint
         )
-        self.setFixedSize(200, 150)
+        self.setFixedSize(300, 200)
 
         # Place the tray icon
         self.trayIcon = TrayIcon(self)
@@ -145,7 +147,7 @@ class MainUX(QMainWindow):
             self.translate(self.text)
 
     def translate(self, src):
-        print(time.time())
+        t = time.time()
         if src is None or src == '':
             return
         try:
@@ -159,7 +161,7 @@ class MainUX(QMainWindow):
         self.setPlainText(self.res)
         if self.autoWrite is True:
             clipboard.setText(self.res)
-        print("translate success")
+        print(f"{time.time()-t:.2f}s")
 
 
 class TrayIcon(QSystemTrayIcon):

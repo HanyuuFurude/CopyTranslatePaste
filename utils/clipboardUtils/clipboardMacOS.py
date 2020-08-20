@@ -5,7 +5,6 @@ import subprocess
 @ Date      : 2020/08/14
 @ Desc      : Clipboard getter setter for MacOS
 '''
-import pyperclip
 
 
 class MacClipboard:
@@ -14,6 +13,7 @@ class MacClipboard:
     '''
 
     def __init__(self):
+        import pyperclip
         self.name: str = "Darwin"
 
     def getText(self) -> str:
