@@ -32,7 +32,7 @@ namespace CopyTranslatePaste
             return await CopyTranslatePaste.Translate.RunAsync(src);
         }
         
-        private async void Import_Click(object sender, RoutedEventArgs e)
+        private void Import_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
             {
@@ -48,10 +48,7 @@ namespace CopyTranslatePaste
                 string text = page.GetText();
                 if (!String.IsNullOrWhiteSpace(text))
                 {
-                    TextBlockSrc.Text = $"识别结果为{text}";
-                    var result = await Translate(text);
-                    TextBlockResult.Text = result;
-                    
+                    TextBlockSrc.Text = text.Replace("\n","");
                 }
                 else
                 {
@@ -59,6 +56,18 @@ namespace CopyTranslatePaste
                 }
 
             }
+        }
+
+        private async void Translate_Click(object sender, RoutedEventArgs e)
+        {
+            var src = TextBlockSrc.Text;
+            if (string.IsNullOrEmpty(src))
+            {
+                return;
+            }
+            var result = await Translate(src);
+            TextBlockResult.Text = result;
+
         }
     }
 }
