@@ -20,19 +20,19 @@ namespace CopyTranslatePaste
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Translate()
+        private async Task<string> Translate(string src)
         {
-
+            return await CopyTranslatePaste.Translate.RunAsync(src);
         }
-
-        private void Import_Click(object sender, RoutedEventArgs e)
+        
+        private async void Import_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
             {
@@ -48,12 +48,16 @@ namespace CopyTranslatePaste
                 string text = page.GetText();
                 if (!String.IsNullOrWhiteSpace(text))
                 {
-                    TextBlockResult.Text = $"识别结果为{text}";
+                    TextBlockSrc.Text = $"识别结果为{text}";
+                    var result = await Translate(text);
+                    TextBlockResult.Text = result;
+                    
                 }
                 else
                 {
-                    TextBlockResult.Text = "未识别到文字";
+                    TextBlockSrc.Text = "未识别到文字";
                 }
+
             }
         }
     }

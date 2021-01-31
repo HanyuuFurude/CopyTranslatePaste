@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -8,8 +10,10 @@ namespace CopyTranslatePaste
 {
     public class Translate
     {
-        private const string _RAW_URL = "aHR0cDovL2ZhbnlpLnlvdWRhby5jb20vdHJhbnNsYXRlP3NtYXJ0cmVzdWx0PWRpY3Qmc21hcnRyZXN1bHQ9cnVsZSZzbWFydHJlc3VsdD11Z2Mmc2Vzc2lvbkZyb209bnVsbA==";
+        private const string _RAW_URL = "aHR0cDovL2ZhbnlpLnlvdWRhby5jb20vdHJhbnNsYXRl";
+        private const string _USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.56";
         private static readonly string _URL = Utils.Base64Decode(_RAW_URL);
+        //private static readonly string _URL = "http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null&i=word&doctype=json";
         private static readonly HttpClient _client = new HttpClient();
         private static readonly Dictionary<string, string> _HEADER = new Dictionary<string, string>()
         {
@@ -18,7 +22,8 @@ namespace CopyTranslatePaste
             {"version","2.1" },
             {"ue","UTF-8" },
             {"action","FY_BY_CLICKBUTTON" },
-            {"typoResult","true" }
+            {"typoResult","true" },
+            {"i","测试" }
         };
         public static async Task<string> RunAsync(string src)
         {
@@ -26,23 +31,29 @@ namespace CopyTranslatePaste
             {
                 return "";
             }
-            HttpResponseMessage request = new HttpResponseMessage();
-            foreach (var pair in _HEADER)
+            var request = new HttpRequestMessage()
             {
-                request.Headers.Add(pair.Key, pair.Value);
-            }
-            request.Headers.Add("i", src);
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(_URL)
+            };
+            request.Headers.Add("user-agent", _USER_AGENT);
+            var content = new Dictionary<string, string>(_HEADER);
+            content["i"] = src;
+            request.Content = new FormUrlEncodedContent(content);
             try
             {
-                var response = await _client.GetAsync(_URL);
+                var response = await _client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
-                var rawRes = await response.Content.ReadAsStringAsync();
-                return rawRes;
+                var rawRes = await response.Content.ReadAsByteArrayAsync();
+                var text = Encoding.Default.GetString(rawRes);
+                var res = JObject.Parse(text); 
+                return text;
             }
             catch (Exception e)
             {
                 return $"出现错误\n{e.Message}\n{e.StackTrace}";
             }
         }
+
     }
 }
