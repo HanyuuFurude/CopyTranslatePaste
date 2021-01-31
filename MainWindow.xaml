@@ -1,0 +1,32 @@
+﻿<fw:AcrylicWindow x:Class="CopyTranslatePaste.MainWindow"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CopyTranslatePaste"
+        mc:Ignorable="d"
+        Title="CopyTranslatePaste" 
+        AcrylicWindowStyle="NoIcon"
+        ResizeMode="CanResize"
+        SizeToContent="WidthAndHeight"
+        
+                  >
+    <Grid fw:PointerTracker.Enabled="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="60px"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" Grid.Column="1" x:Name="Import" Click="Import_Click" Style="{StaticResource ButtonRevealStyle}" Content="导入"></Button>
+        <Label Grid.Row="0" Grid.Column="0" Content="识别到的原文"></Label>
+        <TextBlock Grid.Row="1" Grid.Column="0" x:Name="TextBlockSrc" Text="Empty"></TextBlock>
+        <Label Grid.Row="2" Grid.Column="0" Content="译文"></Label>
+        <TextBlock Grid.Row="3" Grid.Column="0" x:Name="TextBlockResult" Text="Empty"></TextBlock>
+    </Grid>
+</fw:AcrylicWindow>

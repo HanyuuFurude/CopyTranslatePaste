@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyTranslatePaste", "CopyTranslatePaste.csproj", "{BED47892-13BE-421B-A8C4-DB0B8AAF4D98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BED47892-13BE-421B-A8C4-DB0B8AAF4D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BED47892-13BE-421B-A8C4-DB0B8AAF4D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BED47892-13BE-421B-A8C4-DB0B8AAF4D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BED47892-13BE-421B-A8C4-DB0B8AAF4D98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEBF3374-1C38-4554-9761-0E1C52E87CBE}
+	EndGlobalSection
+EndGlobal
