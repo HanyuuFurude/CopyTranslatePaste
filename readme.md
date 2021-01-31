@@ -6,6 +6,7 @@
     <path fill-rule="evenodd" d="M14.469 9.414a.75.75 0 0 1 .117 1.055l-4 5a.75.75 0 0 1-1.116.061l-2.5-2.5a.75.75 0 1 1 1.06-1.06l1.908 1.907 3.476-4.346a.75.75 0 0 1 1.055-.117z" />
 </svg>
 </div>
+
 ### 截图/复制即译，自动粘贴
 
 [下载](https://github.com/HanyuuLu/CopyTranslatePaste/releases)
