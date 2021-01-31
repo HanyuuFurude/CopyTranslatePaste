@@ -31,7 +31,7 @@ namespace CopyTranslatePaste
         {
             return await CopyTranslatePaste.Translate.RunAsync(src);
         }
-        
+
         private void Import_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
@@ -41,14 +41,23 @@ namespace CopyTranslatePaste
             };
             if (dialog.ShowDialog().GetValueOrDefault())
             {
+                string text;
                 var filePath = dialog.FileName;
-                using var ocr = new TesseractEngine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata"), "chi_sim", EngineMode.Default);
-                var pix = PixConverter.ToPix(new System.Drawing.Bitmap(filePath));
-                using var page = ocr.Process(pix);
-                string text = page.GetText();
+                try
+                {
+                    using var ocr = new TesseractEngine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata"), "chi_sim", EngineMode.Default);
+                    var pix = PixConverter.ToPix(new System.Drawing.Bitmap(filePath));
+                    using var page = ocr.Process(pix);
+                    text = page.GetText();
+                }
+                catch (Exception exp)
+                {
+                    TextBlockSrc.Text = $"{Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata")}\n{exp.Message}";
+                    return;
+                }
                 if (!String.IsNullOrWhiteSpace(text))
                 {
-                    TextBlockSrc.Text = text.Replace("\n","");
+                    TextBlockSrc.Text = text.Replace("\n", "");
                 }
                 else
                 {

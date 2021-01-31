@@ -25,9 +25,9 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Row="0" Grid.Column="1" x:Name="BtnImport" Click="Import_Click" Style="{StaticResource ButtonRevealStyle}" Content="导入"></Button>
         <Label Grid.Row="0" Grid.Column="0" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="原文"></Label>
-        <TextBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" MaxHeight="400px" x:Name="TextBlockSrc" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Style="{StaticResource TextBoxRevealStyle}" Text="Empty"></TextBox>
+        <TextBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" MaxHeight="300px" x:Name="TextBlockSrc" TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Style="{StaticResource TextBoxRevealStyle}" Text="Empty"></TextBox>
         <Button Grid.Row="2" Grid.Column="1" x:Name="BtnTranslate" Click="Translate_Click" Style="{StaticResource ButtonRevealStyle}"  Content="翻译"></Button>
         <Label Grid.Row="2" Grid.Column="0" Foreground="{DynamicResource SystemBaseHighColorBrush}" Content="译文"></Label>
-        <TextBox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" MaxHeight="400px" x:Name="TextBlockResult"  TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Style="{StaticResource TextBoxRevealStyle}" Text="Empty"></TextBox>
+        <TextBox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" MaxHeight="300px" x:Name="TextBlockResult"  TextWrapping="Wrap" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" Style="{StaticResource TextBoxRevealStyle}" Text="Empty"></TextBox>
     </Grid>
 </fw:AcrylicWindow>

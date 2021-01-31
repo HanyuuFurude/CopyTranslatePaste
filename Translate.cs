@@ -46,8 +46,16 @@ namespace CopyTranslatePaste
                 response.EnsureSuccessStatusCode();
                 var rawRes = await response.Content.ReadAsByteArrayAsync();
                 var text = Encoding.Default.GetString(rawRes);
-                var res = JObject.Parse(text); 
-                return text;
+
+                var jobj = JObject.Parse(text);
+                var resList = jobj["translateResult"].Value<JArray>();
+                StringBuilder result = new StringBuilder();
+                foreach(var subResList in resList.Children())
+                {
+                    foreach(var i in subResList.Children())
+                    result.Append(i["tgt"].Value<string>());
+                }
+                return result.ToString();
             }
             catch (Exception e)
             {
