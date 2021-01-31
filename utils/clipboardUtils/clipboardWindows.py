@@ -29,6 +29,7 @@ class ClipboardWindows:
                 self.w.OpenClipboard()
                 self.w.EmptyClipboard()
                 self.w.SetClipboardData(win32con.CF_UNICODETEXT, text)
+                self.w.CloseClipboard()
             except Exception as e:
                 return None
             finally:

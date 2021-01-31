@@ -17,7 +17,7 @@ QLabel#inputLabel{
 
 QLabel#outputLabel{
     background-color: #2b2b2b;
-
+    
     padding:3px;
     margin:0;
     border-top-left-radius: 20px;
