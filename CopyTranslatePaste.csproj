@@ -6,12 +6,47 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>AppIcon.ico</ApplicationIcon>
     <StartupObject>CopyTranslatePaste.App</StartupObject>
+    <AssemblyVersion>3.0.0.1</AssemblyVersion>
+    <FileVersion>3.0.0.1</FileVersion>
+    <RepositoryUrl>git@github.com:HanyuuLu/CopyTranslatePaste.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>3.0.1-alpha</Version>
+    <Authors>Hanyuu Lu</Authors>
+    <Copyright>All Rights Reserved by Hanyuu Lu</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/HanyuuLu/CopyTranslatePaste</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="tessdata\chi_sim.traineddata" />
+    <None Remove="tessdata\eng.traineddata" />
+    <None Remove="tessdata\jpn.traineddata" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentWPF" Version="0.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Tesseract" Version="4.1.1" />
     <PackageReference Include="Tesseract.Drawing" Version="4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="tessdata\chi_sim.traineddata">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tessdata\eng.traineddata">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tessdata\jpn.traineddata">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
