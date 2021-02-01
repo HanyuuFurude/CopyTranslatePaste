@@ -25,7 +25,7 @@ namespace CopyTranslatePaste
             {"typoResult","true" },
             {"i","测试" }
         };
-        public static async Task<string> RunAsync(string src)
+        public static async Task<string> RunAsync(string src, bool mode = false)
         {
             if (string.IsNullOrWhiteSpace(src))
             {
@@ -50,10 +50,19 @@ namespace CopyTranslatePaste
                 var jobj = JObject.Parse(text);
                 var resList = jobj["translateResult"].Value<JArray>();
                 StringBuilder result = new StringBuilder();
-                foreach(var subResList in resList.Children())
+                foreach (var subResList in resList.Children())
                 {
-                    foreach(var i in subResList.Children())
-                    result.Append(i["tgt"].Value<string>());
+                    foreach (var i in subResList.Children())
+                    {
+                        if (mode)
+                        {
+                            result.Append($"\n⇲{i["src"].Value<string>()}\n⇱{i["tgt"].Value<string>()}\n");
+                        }
+                        else
+                        {
+                            result.Append(i["tgt"].Value<string>());
+                        }
+                    }
                 }
                 return result.ToString();
             }

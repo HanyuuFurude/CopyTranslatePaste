@@ -1,18 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using Tesseract;
 
 namespace CopyTranslatePaste
@@ -27,12 +18,12 @@ namespace CopyTranslatePaste
             InitializeComponent();
         }
 
-        private async Task<string> Translate(string src)
+        private async Task<string> Translate(string src,bool mode = false)
         {
-            return await CopyTranslatePaste.Translate.RunAsync(src);
+            return await CopyTranslatePaste.Translate.RunAsync(src,mode);
         }
 
-        private void Import_Click(object sender, RoutedEventArgs e)
+        private async void Import_ClickAsync(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog()
             {
@@ -41,14 +32,17 @@ namespace CopyTranslatePaste
             };
             if (dialog.ShowDialog().GetValueOrDefault())
             {
+                TextBlockSrc.Text = " ⏱ OCR执行中...";
                 string text;
                 var filePath = dialog.FileName;
                 try
                 {
-                    using var ocr = new TesseractEngine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata"), "chi_sim", EngineMode.Default);
+                    /*
+                     * TODO: 做一个映射表，显示用户友好的语言名
+                     */
+                    var lang = ((ComboBoxItem)ComboBoxLanguageSlected.SelectedItem).Content.ToString();
                     var pix = PixConverter.ToPix(new System.Drawing.Bitmap(filePath));
-                    using var page = ocr.Process(pix);
-                    text = page.GetText();
+                    text = await Utils.DoOCR(lang, pix);
                 }
                 catch (Exception exp)
                 {
@@ -57,7 +51,11 @@ namespace CopyTranslatePaste
                 }
                 if (!String.IsNullOrWhiteSpace(text))
                 {
-                    TextBlockSrc.Text = text.Replace("\n", "");
+                    if (CheckBoxImportSmartProcess.IsChecked.GetValueOrDefault(true))
+                    {
+                        text = Utils.TextProcessor(text);
+                    }
+                    TextBlockSrc.Text = text;
                 }
                 else
                 {
@@ -74,7 +72,8 @@ namespace CopyTranslatePaste
             {
                 return;
             }
-            var result = await Translate(src);
+            TextBlockResult.Text = " ⏱ 翻译接口请求中...";
+            var result = await Translate(src,CheckBoxTranslateResultMode.IsChecked.GetValueOrDefault(false));
             TextBlockResult.Text = result;
 
         }
